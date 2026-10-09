@@ -6,6 +6,29 @@ on:
   pull_request:
     branches: [ "main" ]
   workflow_dispatch:
+    inputs:
+      build_target:
+        description: 'Target device to build'
+        required: true
+        default: 'aosp_box'
+        type: choice
+        options:
+          - aosp_box
+          - aosp_arm64
+      build_variant:
+        description: 'Build variant (userdebug, eng, user)'
+        required: true
+        default: 'userdebug'
+        type: choice
+        options:
+          - userdebug
+          - eng
+          - user
+      clean_build:
+        description: 'Perform a clean build'
+        required: false
+        type: boolean
+        default: false
 
 jobs:
   build:
@@ -13,7 +36,7 @@ jobs:
     
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Set up environment
       run: |
@@ -50,7 +73,7 @@ jobs:
         zip -r ota_package.zip out/target/product/box/
         
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: AndroidTV-ROM-OTA
         path: ota_package.zip
