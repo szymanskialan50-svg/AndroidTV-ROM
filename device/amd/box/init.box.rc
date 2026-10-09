@@ -1,0 +1,65 @@
+# Android TV ROM Init Script
+
+on early-init
+    # Mount filesystems
+    mount tmpfs tmpfs /tmp
+    mount tmpfs tmpfs /dev
+
+on init
+    # Set permissions
+    chmod 0777 /dev
+    chmod 0777 /dev/socket
+    chmod 0777 /dev/socket/logd
+    
+    # Symlinks
+    symlink /dev/block/platform/soc/40000000.ufshc/by-name /dev/block/by-name
+
+on fs
+    # Mount system
+    mount ext4 /dev/block/by-name/system /system
+    
+    # Mount vendor
+    mount ext4 /dev/block/by-name/vendor /vendor
+    
+    # Mount data
+    mount ext4 /dev/block/by-name/data /data
+    
+    # Mount cache
+    mount ext4 /dev/block/by-name/cache /cache
+
+on post-fs-data
+    # Set permissions for system
+    chmod 0755 /system/bin
+    chmod 0755 /system/lib
+    chmod 0755 /system/lib64
+    
+    # Create directories
+    mkdir /data/misc 01771 system system
+    mkdir /data/misc/bluetoothd 0770 bluetooth bluetooth
+    mkdir /data/misc/wifi 0770 wifi wifi
+    mkdir /data/misc/dhcp 0770 dhcp dhcp
+
+on boot
+    # Start WiFi
+    setprop ctl.start wpa_supplicant
+    setprop ctl.start dhcpcd
+
+    # Start Bluetooth
+    setprop ctl.start bluetoothd
+
+service wpa_supplicant /system/bin/wpa_supplicant -iwlan0 -c/system/etc/wifi/wpa_supplicant.conf
+    class late_start
+    socket wpa_wlan0 dgram 660 wifi wifi
+    disabled
+    oneshot
+
+service dhcpcd /system/bin/dhcpcd -ABKL
+    class late_start
+    disabled
+    oneshot
+
+service bluetoothd /system/bin/bluetoothd
+    class late_start
+    socket bluetooth stream 660 bluetooth bluetooth
+    disabled
+    oneshot

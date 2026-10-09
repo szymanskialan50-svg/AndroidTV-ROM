@@ -1,0 +1,69 @@
+#
+# Android TV ROM System Properties
+#
+
+# Build info
+ro.build.product=box
+ro.build.device=box
+ro.product.board=box
+ro.product.model=Android TV Box
+ro.product.manufacturer=AMD
+ro.product.brand=Android
+
+# Display
+ro.sf.lcd_density=320
+ro.sf.hwrotation=0
+debug.sf.nobootanimation=0
+
+# GPU
+ro.opengles.version=196608
+debug.sf.hw=1
+debug.egl.hw=1
+debug.composition.type=2
+hwui.render_dirty_regions=false
+
+# Performance
+ro.zygote.disable_gl_preload=true
+persist.sys.dun.override=0
+ro.kernel.qemu=0
+
+# WiFi
+wifi.interface=wlan0
+wifi.supplicant_scan_interval=15
+
+# Bluetooth
+bluetooth.enable_timeout_ms=1200000
+ro.bluetooth.dun_supported=true
+ro.bluetooth.hfp.ver=1.6
+ro.bluetooth.sap=true
+
+# Audio
+ro.audio.flinger_standbytime_ms=300
+af.resampler.quality=255
+
+# Media
+media.stagefright.enable-https=1
+media.stagefright.enable-player=true
+media.stagefright.enable-meta=true
+media.stagefright.enable-scan=true
+media.stagefright.enable-http=true
+media.stagefright.enable-aac=true
+media.stagefright.enable-qcp=true
+media.stagefright.enable-vorbis=true
+media.stagefright.enable-mp3=true
+media.stagefright.enable-amrwb=true
+media.stagefright-audio.decoder.mp3.enabled=1
+media.stagefright-audio.decoder.aac.enabled=1
+
+# Network
+net.dns1=8.8.8.8
+net.dns2=8.8.4.4
+
+# Boot
+ro.boot.bootloader=unknown
+ro.boot.hardware=box
+ro.bootloader=unknown
+ro.hardware=box
+
+# SELinux
+ro.boot.selinux=permissive
